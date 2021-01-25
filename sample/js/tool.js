@@ -1,15 +1,15 @@
-var testTool = {
+export const testTool = {
   b64EncodeUnicode: function (str) {
     // first we use encodeURIComponent to get percent-encoded UTF-8,
     // then we convert the percent encodings into raw bytes which
     // can be fed into btoa.
     return btoa(
-      encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function toSolidBytes(
-        match,
-        p1
-      ) {
-        return String.fromCharCode("0x" + p1);
-      })
+      encodeURIComponent(str).replace(
+        /%([0-9A-F]{2})/g,
+        function toSolidBytes(match, p1) {
+          return String.fromCharCode("0x" + p1);
+        }
+      )
     );
   },
   b64DecodeUnicode: function (str) {
@@ -90,7 +90,16 @@ var testTool = {
   },
   serialize: function (obj) {
     // eslint-disable-next-line no-shadow
-    var keyOrderArr = ["name", "mn", "email", "pwd", "role", "lang", "signature", "china"];
+    var keyOrderArr = [
+      "name",
+      "mn",
+      "email",
+      "pwd",
+      "role",
+      "lang",
+      "signature",
+      "china",
+    ];
 
     Array.intersect = function () {
       var result = new Array();

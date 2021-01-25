@@ -1,4 +1,5 @@
 import { ZoomMtg } from "@zoomus/websdk";
+import { testTool } from "./tool";
 
 console.log("checkSystemRequirements");
 console.log(JSON.stringify(ZoomMtg.checkSystemRequirements()));
@@ -18,7 +19,6 @@ const API_KEY = "";
  */
 const API_SECRET = "";
 
-testTool = window.testTool;
 document.getElementById("display_name").value =
   "Local" +
   ZoomMtg.getJSSDKVersion()[0] +

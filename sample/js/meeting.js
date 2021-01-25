@@ -1,5 +1,7 @@
 import { ZoomMtg } from "@zoomus/websdk";
-const testTool = window.testTool;
+import { startRecordingCanvas } from "./record";
+import { testTool } from "./tool";
+
 // get meeting args from url
 const tmpArgs = testTool.parseQuery();
 const meetingConfig = {
@@ -38,6 +40,33 @@ const meetingConfig = {
 };
 
 console.log(JSON.stringify(ZoomMtg.checkSystemRequirements()));
+function createElementFromHTML(htmlString) {
+  var div = document.createElement("div");
+  div.innerHTML = htmlString.trim();
+
+  // Change this to div.childNodes to support multiple top-level nodes
+  return div.firstChild;
+}
+let loop = () => {
+  setInterval(() => {
+    let footer = document.querySelector("#wc-footer > div > div:nth-child(2)");
+    if (document.querySelector("[aria-label='record current meeting']")) {
+      console.log("element exists");
+    } else {
+      let startRecording = () => {
+        console.log("record!!");
+        startRecordingCanvas();
+      };
+      let recordButton = createElementFromHTML(
+        `<button class="footer-button__button ax-outline" type="button" aria-label="record current meeting"><div class="footer-button__img-layer"><div class="footer-button__no-record-icon"></div></div><span class="footer-button__button-label">Record</span></button>`
+      );
+      recordButton.onclick = () => startRecording();
+      footer.appendChild(recordButton);
+      loop();
+    }
+  }, 1000);
+};
+loop();
 
 // it's option if you want to change the WebSDK dependency link resources. setZoomJSLib must be run at first
 ZoomMtg.preLoadWasm();
@@ -77,7 +106,6 @@ function beginJoin(signature) {
       console.log(res);
     },
   });
-  ZoomMtg.showRecordFunction(true);
 
   ZoomMtg.inMeetingServiceListener("onUserJoin", function (data) {
     console.log("inMeetingServiceListener onUserJoin", data);
