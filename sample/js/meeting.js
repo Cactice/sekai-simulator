@@ -1,3 +1,21 @@
+window.streamDestination = [];
+(function () {
+  var original = window.AudioContext.prototype.createMediaStreamDestination;
+  window.AudioContext.prototype.createMediaStreamDestination = function () {
+    let value = original.call(this, ...arguments);
+    window.streamDestination.push(value);
+    return value;
+  };
+})();
+(function () {
+  var origin = navigator.mediaDevices.getUserMedia;
+  navigator.mediaDevices.getUserMedia = function () {
+    window.constraints = arguments[0];
+    let value = origin.call(this, ...arguments);
+    return value;
+  };
+})();
+console.log(window.AudioContext.createMediaStreamDestination);
 import { ZoomMtg } from "@zoomus/websdk";
 import { startRecordingCanvas } from "./record";
 import { testTool } from "./tool";

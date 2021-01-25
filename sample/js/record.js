@@ -1,38 +1,39 @@
-export const startRecordingCanvas = () => {
+const streamCanvasAndWebAudio = () => {
+  // Video
   var canvas = document.querySelectorAll("canvas")[1];
-
   // Optional frames per second argument.
   var videoOutputStream = canvas.captureStream(25);
-  var recordedChunks = [];
-
-  console.log(window.audioCtx1);
-  console.log(window.audioCtx2);
-  console.log("stream!");
-  // console.log(stream);
-  // var options = { mimeType: "video/webm; codecs=vp9" };
-  // let videoOutputStream = new MediaRecorder(stream, options);
 
   // Audio
-  let ctx = window.audioCtx2;
-  var streamDestination;
-  streamDestination = ctx.createMediaStreamDestination();
-  console.log("streamDest", streamDestination);
+  let streamDestination = window.streamDestination[2];
   let audioOutputStream = streamDestination.stream;
-  console.log(audioOutputStream.getTracks());
-  var outputStream = new MediaStream();
+
+  // Combine Audio & Video
+  let outputStream = new MediaStream();
   [audioOutputStream, videoOutputStream].forEach(function (s) {
     s.getTracks().forEach(function (t) {
       outputStream.addTrack(t);
     });
   });
-  console.log(outputStream.getTracks());
-  // Both
-  var finalRecorder;
-  var options = { mimeType: "video/webm; codecs=vp9" };
-  finalRecorder = new MediaRecorder(videoOutputStream, options);
+  return outputStream;
+};
 
-  finalRecorder.ondataavailable = handleDataAvailable;
-  finalRecorder.start();
+export const startRecordingCanvas = () => {
+  let recordedChunks = [];
+  let outputStream = streamCanvasAndWebAudio();
+  let options = { mimeType: "video/webm; codecs=vp9" };
+  let recordOthers = new MediaRecorder(outputStream, options);
+
+  recordOthers.ondataavailable = handleDataAvailable;
+  recordOthers.start();
+  let recordMyself;
+  navigator.mediaDevices
+    .getUserMedia(window.constraints)
+    .then(function (stream) {
+      recordMyself = new MediaRecorder(stream, options);
+      recordMyself.ondataavailable = handleDataAvailable;
+      recordMyself.start();
+    });
   // demo: to download after 3sec
   function handleDataAvailable(event) {
     console.log("data-available", event);
@@ -59,6 +60,7 @@ export const startRecordingCanvas = () => {
   }
   setTimeout((event) => {
     console.log("stopping");
-    finalRecorder.stop();
-  }, 3000);
+    recordOthers.stop();
+    recordMyself.stop();
+  }, 5000);
 };
