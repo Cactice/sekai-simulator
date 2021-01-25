@@ -8,10 +8,10 @@ window.streamDestination = [];
   };
 })();
 (function () {
-  var origin = navigator.mediaDevices.getUserMedia;
+  var original = navigator.mediaDevices.getUserMedia;
   navigator.mediaDevices.getUserMedia = function () {
     window.constraints = arguments[0];
-    let value = origin.call(this, ...arguments);
+    let value = original.call(this, ...arguments);
     return value;
   };
 })();
