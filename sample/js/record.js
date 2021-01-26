@@ -1,7 +1,7 @@
 import JSZip from "jszip";
 const streamCanvasAndWebAudio = () => {
   // Video
-  var canvas = document.querySelectorAll("canvas")[1];
+  var canvas = document.getElementById("main-video");
   // Optional frames per second argument.
   var videoOutputStream = canvas.captureStream(25);
 
@@ -28,13 +28,16 @@ export const startRecordingCanvas = () => {
   recordThem.ondataavailable = handleDataAvailableFactory("them");
   recordThem.start();
   let recordMe;
-  navigator.mediaDevices
-    .getUserMedia(window.constraints)
-    .then(function (stream) {
-      recordMe = new MediaRecorder(stream, options);
-      recordMe.ondataavailable = handleDataAvailableFactory("me");
-      recordMe.start();
-    });
+  let constraints = {
+    audio: window.audioConstraints || true,
+    video: window.videoConstraints || true,
+  };
+  console.log("record constraints", constraints);
+  navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
+    recordMe = new MediaRecorder(stream, options);
+    recordMe.ondataavailable = handleDataAvailableFactory("me");
+    recordMe.start();
+  });
   // demo: to download after 3sec
   function handleDataAvailableFactory(id) {
     recordedChunksDict[id] = [];
@@ -49,7 +52,12 @@ export const startRecordingCanvas = () => {
     };
   }
   function download() {
-    if (Object.keys(recordedChunksDict).length <= 1) {
+    let chunkSize = 0;
+    Object.values(recordedChunksDict).forEach(
+      (chunk) => (chunkSize += chunk.length)
+    );
+    console.log(chunkSize);
+    if (chunkSize <= 1) {
       return;
     }
     const zip = new JSZip();

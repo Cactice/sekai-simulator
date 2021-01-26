@@ -10,7 +10,12 @@ window.streamDestination = [];
 (function () {
   var original = navigator.mediaDevices.getUserMedia;
   navigator.mediaDevices.getUserMedia = function () {
-    window.constraints = arguments[0];
+    console.log("preffered device", arguments[0]);
+    if (arguments[0].audio) {
+      window.audioConstraints = arguments[0].audio;
+    } else if (arguments[0].video) {
+      window.videoConstraints = arguments[0].video;
+    }
     let value = original.call(this, ...arguments);
     return value;
   };
