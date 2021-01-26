@@ -2,22 +2,22 @@ window.streamDestination = [];
 (function () {
   var original = window.AudioContext.prototype.createMediaStreamDestination;
   window.AudioContext.prototype.createMediaStreamDestination = function () {
-    let value = original.call(this, ...arguments);
+    let mediastreamDestination = original.call(this, ...arguments);
     window.streamDestination.push(value);
-    return value;
+    return mediastreamDestination;
   };
 })();
 (function () {
   var original = navigator.mediaDevices.getUserMedia;
   navigator.mediaDevices.getUserMedia = function () {
-    console.log("preffered device", arguments[0]);
-    if (arguments[0].audio) {
-      window.audioConstraints = arguments[0].audio;
-    } else if (arguments[0].video) {
-      window.videoConstraints = arguments[0].video;
+    const constraints = arguments[0];
+    console.log("preffered device", constraints);
+    if (constraints.audio) {
+      window.audioConstraints = constraints.audio;
+    } else if (constraints.video) {
+      window.videoConstraints = constraints.video;
     }
-    let value = original.call(this, ...arguments);
-    return value;
+    return original.call(this, ...arguments);
   };
 })();
 console.log(window.AudioContext.createMediaStreamDestination);
