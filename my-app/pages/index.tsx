@@ -1,24 +1,78 @@
 import Layout from "../components/Layout";
-// import { RequestZoomCredentials } from "@components/root/RequestZoomCredentials";
-import { Container, Row, Col, Form, Button, Jumbotron } from "react-bootstrap";
-import React, { useState } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  Jumbotron,
+  Nav,
+  Navbar,
+} from "react-bootstrap";
+import React, { useEffect, useState } from "react";
 import { RequestRoomCredentials } from "@components/root/RequestRoomCredentials";
 import { RequestZoomCredentials } from "@components/root/RequestZoomCredentials";
+import { useLocalStorage } from "@hooks/useLocalStorage";
+import { ZoomCredentials } from "interfaces";
+import { generateMeetingConfig } from "@components/root/generateMeetingConfig";
+import { useRouter } from "next/router";
 const IndexPage = () => {
   const [showRequestRoomCredentials, setShowRequestRoomCredentials] = useState(
     false
   );
+  const [
+    zoomCredentials,
+    setZoomCredentials,
+  ] = useLocalStorage<ZoomCredentials>("zoomCredentials", {
+    apiKey: "",
+    secret: "",
+  });
+  const [showRequestZoomCredentials, setShowRequestZoomCredentials] = useState(
+    false
+  );
+  const router = useRouter();
+  useEffect(() => {
+    console.log("zoomCredentials", zoomCredentials);
+    if (!zoomCredentials.apiKey) {
+      setShowRequestZoomCredentials(true);
+    }
+  }, []);
   return (
-    <Layout title="Home | Next.js + TypeScript Example">
+    <Layout title="1 on 1 録画ツール">
+      <Navbar className="navbar navbar-light bg-light">
+        <Navbar.Brand>1 on 1 録画ツール</Navbar.Brand>
+        <Navbar.Toggle />
+        <Navbar.Collapse className="justify-content-end">
+          <Navbar.Text>APIキー:</Navbar.Text>
+          <Nav.Link onClick={() => setShowRequestZoomCredentials(true)}>
+            {`${zoomCredentials.apiKey}...`}
+          </Nav.Link>
+        </Navbar.Collapse>
+      </Navbar>
       <RequestZoomCredentials
+        zoomCredentials={zoomCredentials}
         onSubmitZoomCredentials={(zoomCredentials) => {
+          setZoomCredentials(zoomCredentials);
+          setShowRequestZoomCredentials(false);
           console.log(zoomCredentials);
         }}
+        show={showRequestZoomCredentials}
       />
       <RequestRoomCredentials
         onHide={() => setShowRequestRoomCredentials(false)}
         show={showRequestRoomCredentials}
-        onSubmitRoomCredentials={() => {}}
+        onSubmitRoomCredentials={(roomCredentials, managerName) => {
+          generateMeetingConfig(
+            roomCredentials,
+            managerName,
+            zoomCredentials
+          ).then((meetingConfig) => {
+            router.replace({
+              pathname: "/meeting",
+              query: meetingConfig,
+            });
+          });
+        }}
       />
       <Container>
         <Row style={{ height: "80vh" }}>

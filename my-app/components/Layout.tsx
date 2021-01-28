@@ -15,11 +15,7 @@ const Layout = ({ children, title = "This is the default title" }: Props) => (
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       <link rel="shortcut icon" href="/favicon.ico" />
     </Head>
-    <header>
-      <nav className="navbar navbar-light bg-light">
-        <span className="navbar-brand mb-0 h1">1 on 1 録画ツール</span>
-      </nav>
-    </header>
+
     {children}
   </div>
 );

@@ -11,7 +11,10 @@ export const RequestRoomCredentials = ({
   onHide,
 }: {
   onHide: () => void;
-  onSubmitRoomCredentials: (RoomCredentials: string) => void;
+  onSubmitRoomCredentials: (
+    roomCredentials: RoomCredentials,
+    managerName: string
+  ) => void;
   show: boolean;
 }) => {
   const router = useRouter();
@@ -25,14 +28,6 @@ export const RequestRoomCredentials = ({
     ID: NaN,
     passcode: "",
   });
-  // TODO move this to parent component and quit useLocalStorage
-  const [zoomCredentials, _] = useLocalStorage<ZoomCredentials>(
-    "zoomCredentials",
-    {
-      apiKey: "",
-      secret: "",
-    }
-  );
   const [managerName, setManagerName] = useLocalStorage<string>(
     "managerName",
     ""
@@ -110,16 +105,7 @@ export const RequestRoomCredentials = ({
             let managerName = managerNameEl?.current?.value || "";
             setRoomCredentials(roomCredentials);
             setManagerName(managerName);
-            generateMeetingConfig(
-              roomCredentials,
-              managerName,
-              zoomCredentials
-            ).then((meetingConfig) => {
-              router.push({
-                pathname: "/meeting",
-                query: meetingConfig,
-              });
-            });
+            onSubmitRoomCredentials(roomCredentials, managerName);
           }}
         >
           参加

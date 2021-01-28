@@ -5,21 +5,17 @@ import { Button, Form, Modal } from "react-bootstrap";
 
 export const RequestZoomCredentials = ({
   onSubmitZoomCredentials,
+  zoomCredentials,
+  show,
 }: {
+  zoomCredentials: ZoomCredentials;
   onSubmitZoomCredentials: (zoomCredentialString: ZoomCredentials) => void;
+  show: boolean;
 }) => {
   const zoomCredentialsEl = useRef<HTMLInputElement>(null);
-  const [showModal, setShowModal] = useState(true);
-  const [
-    zoomCredentials,
-    setZoomCredentials,
-  ] = useLocalStorage<ZoomCredentials>("zoomCredentials", {
-    apiKey: "",
-    secret: "",
-  });
   return (
     <Modal
-      show={showModal}
+      show={show}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -33,7 +29,9 @@ export const RequestZoomCredentials = ({
           <Form.Group controlId="ApiKey">
             <Form.Label>APIキーを入力してください</Form.Label>
             <Form.Control
-              defaultValue={`${zoomCredentials.apiKey}.${zoomCredentials.secret}`}
+              defaultValue={`${zoomCredentials.apiKey}${
+                zoomCredentials.apiKey ? "." : ""
+              }${zoomCredentials.secret}`}
               ref={zoomCredentialsEl}
               placeholder=""
             />
@@ -49,9 +47,7 @@ export const RequestZoomCredentials = ({
               return;
             }
             const [apiKey, secret] = credentialsValue.split(".");
-            setZoomCredentials({ apiKey, secret });
             onSubmitZoomCredentials({ apiKey, secret });
-            setShowModal(false);
           }}
         >
           利用開始
