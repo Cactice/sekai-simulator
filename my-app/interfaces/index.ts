@@ -5,6 +5,25 @@
 // import { User } from 'path/to/interfaces';
 
 export type User = {
-  id: number
-  name: string
-}
+  id: number;
+  name: string;
+};
+
+export type ZoomCredentials = {
+  apiKey: string;
+  secret: string;
+};
+
+export type RoomCredentials = {
+  ID: number;
+  passcode: string;
+};
+export type MeetingConfig = {
+  meetingNumber: number;
+  userName: string;
+  signature: string;
+  apiKey: string;
+  passWord: string;
+};
+
+export type zoomID = string; // Email or zoomID
