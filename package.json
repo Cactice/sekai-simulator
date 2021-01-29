@@ -7,7 +7,7 @@
     "export": "next export",
     "start": "next start",
     "type-check": "tsc",
-    "postinstall": "patch-package && cp -r node_modules/@zoomus/websdk/dist/lib/ public/lib/",
+    "postinstall": "patch-package && cp -r node_modules/@zoomus/websdk/dist/lib/ public/zoomLib/",
     "deploy": "gh-pages --dotfiles -d out "
   },
   "dependencies": {

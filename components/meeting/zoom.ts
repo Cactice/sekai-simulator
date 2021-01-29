@@ -38,7 +38,7 @@ export const initZoom = async (meetingConfig: MeetingConfig) => {
   // console.log(JSON.stringify(ZoomMtg.checkSystemRequirements()));
   let { ZoomMtg } = await import("@zoomus/websdk");
   ZoomMtg.setZoomJSLib(
-    `${window.location.protocol}//${window.location.host}${basePath}/lib`
+    `${window.location.protocol}//${window.location.host}${basePath}/zoomLib`
   );
   ZoomMtg.preLoadWasm();
   ZoomMtg.prepareJssdk();
