@@ -16,6 +16,7 @@ import { useLocalStorage } from "@hooks/useLocalStorage";
 import { ZoomCredentials } from "interfaces";
 import { generateMeetingConfig } from "@components/root/generateMeetingConfig";
 import { useRouter } from "next/router";
+import { basePath } from "next.config";
 const IndexPage = () => {
   const [showRequestRoomCredentials, setShowRequestRoomCredentials] = useState(
     false
@@ -77,7 +78,7 @@ const IndexPage = () => {
       <Container>
         <Row style={{ height: "80vh" }}>
           <Col className="text-center align-self-center">
-            <img src="/people.gif" width="400px" />
+            <img src={`${basePath}/people.gif`} width="400px" />
           </Col>
           <Col lg className="text-center align-self-center">
             <Row className="justify-content-center">
@@ -94,11 +95,11 @@ const IndexPage = () => {
                   variant="link"
                   onClick={() => setShowRequestRoomCredentials(true)}
                 >
-                  <img src="/Join.png" width="70px" />
+                  <img src={`${basePath}/Join.png`} width="70px" />
                 </Button>
               </Col>
               <Col lg="4">
-                <img src="/NewMeeting.png" width="70px" />
+                <img src={`${basePath}/NewMeeting.png`} width="70px" />
               </Col>
             </Row>
           </Col>

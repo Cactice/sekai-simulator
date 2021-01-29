@@ -6,8 +6,8 @@
     "build": "next build && next export",
     "start": "next start",
     "type-check": "tsc",
-    "postinstall": "patch-package && mkdir -p public/node_modules/ && cp -r node_modules/@zoomus public/node_modules/",
-    "deploy": "gh-pages -d out"
+    "postinstall": "patch-package && cp -r node_modules/@zoomus/websdk/dist/lib/ public/lib/",
+    "deploy": "gh-pages --dotfiles -d out "
   },
   "dependencies": {
     "@zoomus/websdk": "^1.8.6",

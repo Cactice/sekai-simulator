@@ -1,4 +1,5 @@
 import { MeetingConfig } from "interfaces";
+import { basePath } from "next.config";
 if (typeof window !== "undefined") {
   // TODO: rewrite for react
 
@@ -36,6 +37,9 @@ if (typeof window !== "undefined") {
 export const initZoom = async (meetingConfig: MeetingConfig) => {
   // console.log(JSON.stringify(ZoomMtg.checkSystemRequirements()));
   let { ZoomMtg } = await import("@zoomus/websdk");
+  ZoomMtg.setZoomJSLib(
+    `${window.location.protocol}//${window.location.host}${basePath}/lib`
+  );
   ZoomMtg.preLoadWasm();
   ZoomMtg.prepareJssdk();
   ZoomMtg.init({
