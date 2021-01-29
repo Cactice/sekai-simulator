@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build && next export",
+    "export": "next export",
     "start": "next start",
     "type-check": "tsc",
     "postinstall": "patch-package && cp -r node_modules/@zoomus/websdk/dist/lib/ public/lib/",
