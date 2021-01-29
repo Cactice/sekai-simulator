@@ -29,7 +29,6 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - run: yarn install --frozen-lockfile
-      - run: yarn postinstall
       - run: yarn build
       - run: yarn export
 
