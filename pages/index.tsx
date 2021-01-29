@@ -77,7 +77,7 @@ const IndexPage = () => {
       <Container>
         <Row style={{ height: "80vh" }}>
           <Col className="text-center align-self-center">
-            <img src="/meeting.gif" width="400px" />
+            <img src="/people.gif" width="400px" />
           </Col>
           <Col lg className="text-center align-self-center">
             <Row className="justify-content-center">

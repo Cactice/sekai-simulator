@@ -6,7 +6,7 @@
     "build": "next build && next export",
     "start": "next start",
     "type-check": "tsc",
-    "postinstall": "patch-package && rimraf public/node_modules/ && mkdir public/node_modules/ && cp -r node_modules/@zoomus public/node_modules/"
+    "postinstall": "patch-package && mkdir -p public/node_modules/ && cp -r node_modules/@zoomus public/node_modules/"
   },
   "dependencies": {
     "@zoomus/websdk": "^1.8.6",
