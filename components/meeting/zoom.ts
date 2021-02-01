@@ -5,13 +5,6 @@ if (typeof window !== "undefined") {
 
   window.streamDestinations = [];
   (function () {
-    var original = window.AudioContext.prototype.createMediaStreamSource;
-    console.log("createMediaStreamSource", original);
-    window.AudioContext.prototype.createMediaStreamSource = function () {
-      return original.call(this, arguments[0]);
-    };
-  })();
-  (function () {
     var original = window.AudioContext.prototype.createMediaStreamDestination;
     window.AudioContext.prototype.createMediaStreamDestination = function () {
       let mediaStreamDestination = original.call(this);

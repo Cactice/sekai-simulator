@@ -40,6 +40,7 @@ export const startRecordingCanvas = () => {
     recordMe.start();
   });
   // demo: to download after 3sec
+  // todo: use proper promise
   function handleDataAvailableFactory(id) {
     recordedChunksDict[id] = [];
     return function handleDataAvailable(event) {
