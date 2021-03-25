@@ -3,7 +3,6 @@ import { RoomCredentials, ZoomCredentials } from "interfaces";
 import React, { useRef } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { useRouter } from "next/router";
-import { generateMeetingConfig } from "./generateMeetingConfig";
 
 export const RequestRoomCredentials = ({
   onSubmitRoomCredentials,

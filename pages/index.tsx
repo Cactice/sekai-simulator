@@ -10,11 +10,8 @@ import {
   Navbar,
 } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
-import { RequestRoomCredentials } from "@components/root/RequestRoomCredentials";
-import { RequestZoomCredentials } from "@components/root/RequestZoomCredentials";
 import { useLocalStorage } from "@hooks/useLocalStorage";
 import { ZoomCredentials } from "interfaces";
-import { generateMeetingConfig } from "@components/root/generateMeetingConfig";
 import { useRouter } from "next/router";
 import { basePath } from "next.config";
 const IndexPage = () => {
@@ -50,31 +47,6 @@ const IndexPage = () => {
           </Nav.Link>
         </Navbar.Collapse>
       </Navbar>
-      <RequestZoomCredentials
-        zoomCredentials={zoomCredentials}
-        onSubmitZoomCredentials={(zoomCredentials) => {
-          setZoomCredentials(zoomCredentials);
-          setShowRequestZoomCredentials(false);
-          console.log(zoomCredentials);
-        }}
-        show={showRequestZoomCredentials}
-      />
-      <RequestRoomCredentials
-        onHide={() => setShowRequestRoomCredentials(false)}
-        show={showRequestRoomCredentials}
-        onSubmitRoomCredentials={(roomCredentials, managerName) => {
-          generateMeetingConfig(
-            roomCredentials,
-            managerName,
-            zoomCredentials
-          ).then((meetingConfig) => {
-            router.replace({
-              pathname: "/meeting",
-              query: meetingConfig,
-            });
-          });
-        }}
-      />
       <Container>
         <Row style={{ height: "80vh" }}>
           <Col className="text-center align-self-center">
