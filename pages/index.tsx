@@ -36,9 +36,9 @@ const IndexPage = () => {
     }
   }, []);
   return (
-    <Layout title="1 on 1 録画ツール">
+    <Layout title="世界シミュレーター">
       <Navbar className="navbar navbar-light bg-light">
-        <Navbar.Brand>1 on 1 録画ツール</Navbar.Brand>
+        <Navbar.Brand>世界シミュレーター</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>APIキー:</Navbar.Text>
@@ -54,11 +54,11 @@ const IndexPage = () => {
           </Col>
           <Col lg className="text-center align-self-center">
             <Row className="justify-content-center">
-              <h1>1 on 1 録画ツール</h1>
+              <h1>世界シミュレーター</h1>
             </Row>
             <Row className="justify-content-center">
               <h5 className="text-secondary">
-                <small>Zoom上で行われる1 on 1面談を録画</small>
+                <small>世界をシミュレーション</small>
               </h5>
             </Row>
             <Row className="justify-content-center mt-5 flex-nowrap">
