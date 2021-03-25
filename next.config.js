@@ -1,6 +1,6 @@
 module.exports = {
   reactStrictMode: true,
-  basePath: "/1-on-1-recording-tool",
+  basePath: "sekai-simulator",
   webpack: {
     /* config options here */
   },
